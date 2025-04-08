@@ -2,10 +2,10 @@
   "name": "ushort",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "run": "node ./backend/server.js",
-    "build": "npm install && npm install --prefix client && npm run build --prefix client"
+    "build": "pnpm install && pnpm install --prefix client && pnpm run build --prefix client"
   },
   "keywords": [],
   "author": "",
