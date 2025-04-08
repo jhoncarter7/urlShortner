@@ -14,15 +14,14 @@ import {
   logoutUser,
 } from "./controllers/authController.js";
 import { verifyJwt } from "./middleware/authMiddleware.js";
-import path from "path";
-
-// import { configDotenv } from "dotenv";
+import path from 'path';
+import { fileURLToPath } from 'url';
 import cors from "cors";
 import cookieParser from "cookie-parser";
 const app = express();
 const port = process.env.PORT || 3001;
 // app.use(configDotenv())
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 app.use(
   cors({
@@ -32,7 +31,8 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
+
 connectDB();
 
 app.post("/api/signup", registerUser);
@@ -44,14 +44,17 @@ app.get("/:shortCode", redirectUrl);
 app.post("/api/shorten", verifyJwt, shortUrl);
 app.get("/api/analytics", verifyJwt, urlAnalytics);
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename); // This will be .../USHORT/backend
 
-const __dirname = path.resolve();
-
-app.use(express.static(path.join(__dirname, "/client/dist")));
-console.log(__dirname)
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+const staticPath = path.join(__dirname, '..', 'client', 'dist');
+app.use(express.static(staticPath));
+console.log(`Serving static files from: ${staticPath}`); // For debugging
+app.get('/', (req, res) => {
+  const indexPath = path.join(__dirname, '..', 'client', 'dist', 'index.html');
+  res.sendFile(indexPath);
 });
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
