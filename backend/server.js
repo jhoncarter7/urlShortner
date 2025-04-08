@@ -34,7 +34,8 @@ app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
 
 connectDB();
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename); // This will be .../USHORT/backend
 app.post("/api/signup", registerUser);
 app.post("/api/signin", loginUser);
 
@@ -44,13 +45,17 @@ app.get("/:shortCode", redirectUrl);
 app.post("/api/shorten", verifyJwt, shortUrl);
 app.get("/api/analytics", verifyJwt, urlAnalytics);
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename); // This will be .../USHORT/backend
 
+// --- Static Files Serving ---
+// Go up one level ('..') to the project root, then into client/dist
 const staticPath = path.join(__dirname, '..', 'client', 'dist');
 app.use(express.static(staticPath));
 console.log(`Serving static files from: ${staticPath}`); // For debugging
-app.get('/', (req, res) => {
+
+// --- SPA Fallback ---
+// For any GET request that doesn't match an API route or a static file,
+// send the index.html file. This allows client-side routing to take over.
+app.get(/(.*)/, (req, res) => {
   const indexPath = path.join(__dirname, '..', 'client', 'dist', 'index.html');
   res.sendFile(indexPath);
 });
