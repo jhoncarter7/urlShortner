@@ -78,7 +78,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
 });
 
 const getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+
+  const user = await User.findById(req.user._id);
 
   if (!user) {
     res.status(404);
@@ -93,6 +94,7 @@ const getMe = asyncHandler(async (req, res, next) => {
 });
 
 const logoutUser = asyncHandler(async (req, res, next) => {
+  console.log("Logout request received");
   const options = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
