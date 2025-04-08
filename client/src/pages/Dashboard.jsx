@@ -8,7 +8,7 @@ import MessageBox from "../components/common/MessageBox"
 import QRCodeModal from "../components/common/QRCodeModal"
 import ShortenForm from "../components/links/ShortenForm";
 import DeviceChart from "../components/analytics/DeviceChart";
-import ClicksChart from "../components/analytics/ClicksChart.JSX";
+import ClicksChart from "../components/analytics/ClicksChart";
 import AnalyticsTable from "../components/analytics/AnalyticsTable";
 
 const Dashboard = () => {
