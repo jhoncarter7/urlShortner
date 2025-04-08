@@ -12,7 +12,7 @@ import {
   loginUser,
   getMe,
   logoutUser,
-} from "./controllers/authCOntroller.js";
+} from "./controllers/authController.js";
 import { verifyJwt } from "./middleware/authMiddleware.js";
 import path from "path";
 
@@ -48,7 +48,7 @@ app.get("/api/analytics", verifyJwt, urlAnalytics);
 const __dirname = path.resolve();
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
-
+console.log(__dirname)
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
